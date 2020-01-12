@@ -27,3 +27,13 @@ class EodiroTextStyles {
     fontWeight: FontWeight.w400,
   );
 }
+
+class EodiroText extends Text {
+  EodiroText(
+    String data, {
+    TextStyle style = EodiroTextStyles.defaultStyle,
+  }) : super(
+          data,
+          style: style,
+        );
+}

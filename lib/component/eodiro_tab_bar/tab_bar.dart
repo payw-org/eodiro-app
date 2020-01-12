@@ -4,6 +4,8 @@ import 'package:flutter/widgets.dart';
 import 'tab_bar_item.dart';
 
 class EodiroTabBar extends StatefulWidget {
+  static const double tabBarHeight = 50;
+
   @override
   _EodiroTabBarState createState() => _EodiroTabBarState();
 }
@@ -14,8 +16,8 @@ class _EodiroTabBarState extends State<EodiroTabBar> {
     final double paddingBottom = MediaQuery.of(context).padding.bottom;
 
     return Container(
-      height: 50 + paddingBottom,
-      color: EodiroColors.baseWhiteBlue,
+      height: EodiroTabBar.tabBarHeight + paddingBottom,
+      color: EodiroColors.white,
       width: MediaQuery.of(context).size.width,
       child: Flex(
         direction: Axis.horizontal,

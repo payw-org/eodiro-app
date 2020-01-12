@@ -29,7 +29,7 @@ class _BaseState extends State<Base> {
           Positioned(
             top: 0,
             right: 0,
-            bottom: 50,
+            bottom: EodiroTabBar.tabBarHeight,
             left: 0,
             child: widget._screens[tabIndex],
           ),
