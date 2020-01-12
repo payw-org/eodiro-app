@@ -1,7 +1,6 @@
 import 'package:eodiro/package/eodiro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-
 import 'tab_bar_item.dart';
 
 class EodiroTabBar extends StatefulWidget {
@@ -12,8 +11,10 @@ class EodiroTabBar extends StatefulWidget {
 class _EodiroTabBarState extends State<EodiroTabBar> {
   @override
   Widget build(BuildContext context) {
+    final double paddingBottom = MediaQuery.of(context).padding.bottom;
+
     return Container(
-      height: 50,
+      height: 50 + paddingBottom,
       color: EodiroColors.baseWhiteBlue,
       width: MediaQuery.of(context).size.width,
       child: Flex(
