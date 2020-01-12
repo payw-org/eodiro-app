@@ -1,6 +1,5 @@
 import 'package:eodiro/package/eodiro.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 class Base extends StatefulWidget {
@@ -15,33 +14,33 @@ class Base extends StatefulWidget {
 }
 
 class _BaseState extends State<Base> {
-  int _tabIndex = 0;
-
   @override
   Widget build(BuildContext context) {
+    final EodiroTabBarBloc tabBloc = Provider.of<EodiroTabBarBloc>(context);
+    final tabIndex = tabBloc.tabIndex;
     final double statusBarHeight = MediaQuery.of(context).padding.top;
 
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: EodiroColors.white,
       ),
       child: Stack(
         children: <Widget>[
-          StatusBar(
-            statusBarHeight: statusBarHeight,
+          Positioned(
+            top: 0,
+            right: 0,
+            bottom: 50,
+            left: 0,
+            child: widget._screens[tabIndex],
           ),
           Positioned(
             left: 0,
             bottom: 0,
-            child: MultiProvider(
-              providers: [
-                ChangeNotifierProvider<TabBloc>.value(
-                  value: TabBloc(),
-                )
-              ],
-              child: EodiroTabBar(),
-            ),
-          )
+            child: EodiroTabBar(),
+          ),
+          StatusBar(
+            statusBarHeight: statusBarHeight,
+          ),
         ],
       ),
     );

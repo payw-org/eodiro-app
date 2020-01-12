@@ -1,8 +1,6 @@
 import 'package:flutter/widgets.dart';
 
 class EodiroColors {
-  EodiroColors._();
-
   static const Color eodiroBerry = Color(0xffff3852);
   static const Color white = Color(0xffffffff);
   static const Color baseWhiteBlue = Color(0xfff5f6f8);

@@ -1,9 +1,8 @@
-import 'package:eodiro/component/eodiro_tab_bar/tab_bloc.dart';
-import 'package:eodiro/component/eodiro_tab_bar/tab_item.dart';
-import 'package:eodiro/theme/eodiro_colors.dart';
+import 'package:eodiro/package/eodiro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:provider/provider.dart';
+
+import 'tab_bar_item.dart';
 
 class EodiroTabBar extends StatefulWidget {
   @override
@@ -13,30 +12,32 @@ class EodiroTabBar extends StatefulWidget {
 class _EodiroTabBarState extends State<EodiroTabBar> {
   @override
   Widget build(BuildContext context) {
-    final TabBloc tabBloc = Provider.of<TabBloc>(context);
-    print(tabBloc.tabIndex);
-
     return Container(
+      height: 50,
       color: EodiroColors.baseWhiteBlue,
       width: MediaQuery.of(context).size.width,
       child: Flex(
         direction: Axis.horizontal,
         children: <Widget>[
-          EodiroTabItem(
-            isSelected: tabBloc.tabIndex == 0 ? true : false,
-            label: 'Tab 1',
-            icon: Icons.access_alarm,
-            onTap: () {
-              tabBloc.tabIndex = 0;
-            },
+          EodiroTabBarItem(
+            index: 0,
+            label: '빈 강의실',
+            icon: Icons.beach_access,
           ),
-          EodiroTabItem(
-            isSelected: tabBloc.tabIndex == 1 ? true : false,
-            label: 'Tab 2',
-            icon: Icons.access_alarm,
-            onTap: () {
-              tabBloc.tabIndex = 1;
-            },
+          EodiroTabBarItem(
+            index: 1,
+            label: '강의검색',
+            icon: Icons.school,
+          ),
+          EodiroTabBarItem(
+            index: 2,
+            label: '학식',
+            icon: Icons.fastfood,
+          ),
+          EodiroTabBarItem(
+            index: 3,
+            label: '광장',
+            icon: Icons.bubble_chart,
           ),
         ],
       ),
