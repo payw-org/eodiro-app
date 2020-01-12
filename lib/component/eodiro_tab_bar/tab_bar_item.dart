@@ -30,7 +30,6 @@ class EodiroTabBarItem extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.only(
             top: 5.0,
-            // bottom: 3.0,
           ),
           child: Flex(
             direction: Axis.vertical,
