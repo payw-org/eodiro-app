@@ -48,7 +48,7 @@ function App() {
         }}
       >
         <TouchableOpacity
-          style={{ ...styles.navigationButton, paddingLeft: 10 }}
+          style={{ ...styles.navigationButton, paddingLeft: 20 }}
           onPress={() => {
             webView.current?.goBack()
           }}
@@ -63,7 +63,7 @@ function App() {
           />
         </TouchableOpacity>
         <TouchableOpacity
-          style={{ ...styles.navigationButton, marginLeft: 10 }}
+          style={{ ...styles.navigationButton, marginLeft: 30 }}
           onPress={() => {
             webView.current?.goForward()
           }}
