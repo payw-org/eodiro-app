@@ -6,6 +6,7 @@ import Constants from 'expo-constants'
 import { AppearanceProvider, useColorScheme } from 'react-native-appearance'
 import { Feather } from '@expo/vector-icons'
 import * as Linking from 'expo-linking'
+import { getBottomSpace } from 'react-native-iphone-x-helper'
 
 function App() {
   const colorScheme = useColorScheme()
@@ -43,6 +44,7 @@ function App() {
           display: 'flex',
           flexDirection: 'row',
           backgroundColor: colorScheme === 'light' ? '#f0f2f3' : '#000000',
+          paddingBottom: getBottomSpace()
         }}
       >
         <TouchableOpacity
