@@ -16,7 +16,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.eodiro.app",
-      "buildNumber": "15"
+      "buildNumber": "16"
     },
     "android": {
       "useNextNotificationsApi": true,
