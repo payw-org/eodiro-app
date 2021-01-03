@@ -138,23 +138,25 @@ function App() {
         }}
         onLoad={() => {
           if (!isLoaded) {
-            registerForPushNotificationsAsync().then((token) => {
-              if (token) {
-                webView.current?.injectJavaScript(`
-                  window.expoPushToken = '${token}';
-                  true;
-                `)
-                setExpoPushToken(token)
-              }
-            })
+            setTimeout(() => {
+              registerForPushNotificationsAsync().then((token) => {
+                if (token) {
+                  webView.current?.injectJavaScript(`
+                    window.expoPushToken = '${token}';
+                    true;
+                  `)
+                  setExpoPushToken(token)
+                }
+              })
 
-            Animated.timing(fadeAnim, {
-              toValue: 0,
-              duration: 400,
-              useNativeDriver: true,
-            }).start()
+              Animated.timing(fadeAnim, {
+                toValue: 0,
+                duration: 300,
+                useNativeDriver: true,
+              }).start()
 
-            setIsLoaded(true)
+              setIsLoaded(true)
+            }, 100)
           }
         }}
         onError={() => {
