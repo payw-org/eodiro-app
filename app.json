@@ -13,12 +13,14 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.eodiro.app",
+      "buildNumber": "12"
     },
     "android": {
-      "useNextNotificationsApi": true
+      "useNextNotificationsApi": true,
+      "versionCode": 1
     },
     "web": {
       "favicon": "./assets/favicon.png"
