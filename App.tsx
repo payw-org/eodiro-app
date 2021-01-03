@@ -182,12 +182,14 @@ function App() {
         style={{
           display: 'flex',
           flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'center',
           backgroundColor: colorScheme === 'light' ? '#f0f2f3' : '#000000',
           paddingBottom: getBottomSpace(),
         }}
       >
         <TouchableOpacity
-          style={{ ...styles.navigationButton, paddingLeft: 20 }}
+          style={{ ...styles.navigationButton }}
           onPress={() => {
             webView.current?.goBack()
           }}
