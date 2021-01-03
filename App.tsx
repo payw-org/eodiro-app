@@ -39,12 +39,11 @@ async function registerForPushNotificationsAsync() {
       Permissions.NOTIFICATIONS
     )
     let finalStatus = existingStatus
-    if (existingStatus !== Permissions.PermissionStatus.GRANTED) {
+    if (existingStatus !== 'granted') {
       const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS)
       finalStatus = status
     }
-    if (finalStatus !== Permissions.PermissionStatus.GRANTED) {
-      alert('Failed to get push token for push notification!')
+    if (finalStatus !== 'granted') {
       return
     }
     token = (await Notifications.getExpoPushTokenAsync()).data
@@ -73,7 +72,6 @@ function App() {
   const notificationListener = useRef<Subscription>({ remove: () => {} })
   const responseListener = useRef<Subscription>({ remove: () => {} })
 
-  const [isLoaded, setIsLoaded] = useState(false)
   const [hasError, setHasError] = useState(false)
 
   const colorScheme = useColorScheme()
@@ -87,10 +85,15 @@ function App() {
 
   useEffect(() => {
     registerForPushNotificationsAsync().then((token) => {
-      webView.current?.injectJavaScript(`
-        window.expoPushToken = '${token}';
-      `)
-      setExpoPushToken(token)
+      if (!token) {
+        alert('푸시 알림 토큰을 생성하지 못했습니다.')
+      } else {
+        webView.current?.injectJavaScript(`
+          window.expoPushToken = '${token}';
+          true;
+        `)
+        setExpoPushToken(token)
+      }
     })
 
     // This listener is fired whenever a notification is received
@@ -139,7 +142,7 @@ function App() {
         onLoad={() => {
           Animated.timing(fadeAnim, {
             toValue: 0,
-            duration: 600,
+            duration: 400,
             useNativeDriver: true,
           }).start()
         }}
@@ -232,13 +235,13 @@ function App() {
                 marginBottom: 50,
               }}
             />
-            <Text style={{ color: '#fff', lineHeight: 20 }}>
+            <Text style={{ color: '#fff', lineHeight: 25, fontSize: 14 }}>
               서버에 접속하지 못했습니다.
             </Text>
-            <Text style={{ color: '#fff', lineHeight: 20 }}>
-              문제가 지속될 시,
+            <Text style={{ color: '#fff', lineHeight: 25, fontSize: 14 }}>
+              같은 문제가 지속될 시
             </Text>
-            <Text style={{ color: '#fff', lineHeight: 20 }}>
+            <Text style={{ color: '#fff', lineHeight: 25, fontSize: 14 }}>
               support@eodiro.com으로 문의해주세요.
             </Text>
           </View>
