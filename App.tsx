@@ -38,15 +38,19 @@ async function registerForPushNotificationsAsync() {
     const { status: existingStatus } = await Permissions.getAsync(
       Permissions.NOTIFICATIONS
     )
+
     let finalStatus = existingStatus
     if (existingStatus !== 'granted') {
       const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS)
       finalStatus = status
     }
+
     if (finalStatus !== 'granted') {
       return
     }
+
     token = (await Notifications.getExpoPushTokenAsync()).data
+    alert(`token: ${token}`)
   } else {
     alert('Must use physical device for Push Notifications')
   }
@@ -72,6 +76,7 @@ function App() {
   const notificationListener = useRef<Subscription>({ remove: () => {} })
   const responseListener = useRef<Subscription>({ remove: () => {} })
 
+  const [isLoaded, setIsLoaded] = useState(false)
   const [hasError, setHasError] = useState(false)
 
   const colorScheme = useColorScheme()
@@ -84,18 +89,6 @@ function App() {
   const fadeAnim = useRef(new Animated.Value(1)).current
 
   useEffect(() => {
-    registerForPushNotificationsAsync().then((token) => {
-      if (!token) {
-        alert('푸시 알림 토큰을 생성하지 못했습니다.')
-      } else {
-        webView.current?.injectJavaScript(`
-          window.expoPushToken = '${token}';
-          true;
-        `)
-        setExpoPushToken(token)
-      }
-    })
-
     // This listener is fired whenever a notification is received
     // while the app is foregrounded
     notificationListener.current = Notifications.addNotificationReceivedListener(
@@ -140,11 +133,25 @@ function App() {
           },
         }}
         onLoad={() => {
-          Animated.timing(fadeAnim, {
-            toValue: 0,
-            duration: 400,
-            useNativeDriver: true,
-          }).start()
+          if (!isLoaded) {
+            registerForPushNotificationsAsync().then((token) => {
+              if (token) {
+                webView.current?.injectJavaScript(`
+                  window.expoPushToken = '${token}';
+                  true;
+                `)
+                setExpoPushToken(token)
+              }
+            })
+
+            Animated.timing(fadeAnim, {
+              toValue: 0,
+              duration: 400,
+              useNativeDriver: true,
+            }).start()
+
+            setIsLoaded(true)
+          }
         }}
         onError={() => {
           setHasError(true)
