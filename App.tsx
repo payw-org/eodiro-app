@@ -78,6 +78,8 @@ function App() {
   const [isLoaded, setIsLoaded] = useState(false)
   const [hasError, setHasError] = useState(false)
 
+  const [webViewUrl, setWebViewUrl] = useState(eodiroUrl)
+
   const colorScheme = useColorScheme()
   const webView = useRef<WebView | null>()
   const [
@@ -104,8 +106,11 @@ function App() {
 
         if (data.type === 'notice' && data.url) {
           Linking.openURL(data.url as string)
+        } else if (data.type === 'comment') {
+          setWebViewUrl(
+            `${eodiroUrl}/community/board/${data.boardId}/post/${data.postId}`
+          )
         }
-        console.log(response)
       }
     )
 
@@ -126,7 +131,7 @@ function App() {
       />
       <WebView
         source={{
-          uri: eodiroUrl,
+          uri: webViewUrl,
           headers: {
             'eodiro-agent': 'expo',
           },
