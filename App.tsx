@@ -243,7 +243,7 @@ function App() {
             }}
           >
             <Image
-              source={require('./assets/icon.png')}
+              source={require('./assets/icon-arrow-only.png')}
               style={{
                 width: 100,
                 height: 100,
