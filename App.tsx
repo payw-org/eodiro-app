@@ -139,15 +139,17 @@ function App() {
           const parsed = JSON.parse(data)
 
           if (parsed.isLoaded) {
-            askForNotificationsPermission()
+            setTimeout(() => {
+              askForNotificationsPermission()
 
-            Animated.timing(fadeAnim, {
-              toValue: 0,
-              duration: 300,
-              useNativeDriver: true,
-            }).start()
+              Animated.timing(fadeAnim, {
+                toValue: 0,
+                duration: 300,
+                useNativeDriver: true,
+              }).start()
 
-            setIsLoaded(true)
+              setIsLoaded(true)
+            }, 200)
           } else if (parsed.requestExpoPushToken) {
             const expoPushToken = (await Notifications.getExpoPushTokenAsync())
               .data
