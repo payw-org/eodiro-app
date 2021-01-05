@@ -202,7 +202,19 @@ function App() {
           />
         </TouchableOpacity>
         <TouchableOpacity
-          style={{ ...styles.navigationButton, marginLeft: 30 }}
+          style={{ ...styles.navigationButton }}
+          onPress={() => {
+            webView.current?.postMessage('reload')
+          }}
+        >
+          <Feather
+            name="rotate-cw"
+            size={24}
+            color={colorScheme === 'light' ? '#000' : '#fff'}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{ ...styles.navigationButton }}
           onPress={() => {
             webView.current?.goForward()
           }}
@@ -274,7 +286,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    width: 50,
+    width: 60,
     height: 50,
   },
 })
