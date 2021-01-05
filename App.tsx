@@ -32,8 +32,7 @@ Notifications.setNotificationHandler({
   }),
 })
 
-async function registerForPushNotificationsAsync() {
-  let token
+async function askForNotificationsPermission() {
   if (Constants.isDevice) {
     const { status: existingStatus } = await Permissions.getAsync(
       Permissions.NOTIFICATIONS
@@ -48,8 +47,6 @@ async function registerForPushNotificationsAsync() {
     if (finalStatus !== 'granted') {
       return
     }
-
-    token = (await Notifications.getExpoPushTokenAsync()).data
   } else {
     alert('Must use physical device for Push Notifications')
   }
@@ -62,8 +59,6 @@ async function registerForPushNotificationsAsync() {
       lightColor: '#FF231F7C',
     })
   }
-
-  return token
 }
 
 function App() {
@@ -136,40 +131,41 @@ function App() {
             'eodiro-agent': 'expo',
           },
         }}
-        onLoad={() => {
-          if (!isLoaded) {
-            setTimeout(() => {
-              registerForPushNotificationsAsync().then((token) => {
-                if (token) {
-                  webView.current?.injectJavaScript(`
-                    window.expoPushToken = '${token}';
-                    true;
-                  `)
-                  setExpoPushToken(token)
-                }
-              })
-
-              Animated.timing(fadeAnim, {
-                toValue: 0,
-                duration: 300,
-                useNativeDriver: true,
-              }).start()
-
-              setIsLoaded(true)
-            }, 100)
-          }
-        }}
         onError={() => {
           setHasError(true)
         }}
-        onMessage={() => {}}
-        injectedJavaScript={`
-          window.isApp = true;
-        `}
+        onMessage={async (e) => {
+          const { data } = e.nativeEvent
+          const parsed = JSON.parse(data)
+
+          if (parsed.isLoaded) {
+            askForNotificationsPermission()
+
+            Animated.timing(fadeAnim, {
+              toValue: 0,
+              duration: 300,
+              useNativeDriver: true,
+            }).start()
+
+            setIsLoaded(true)
+          } else if (parsed.requestExpoPushToken) {
+            const expoPushToken = (await Notifications.getExpoPushTokenAsync())
+              .data
+            webView.current?.postMessage(expoPushToken)
+          }
+        }}
         decelerationRate="normal"
         style={styles.webView}
         ref={(wv) => (webView.current = wv)}
         onNavigationStateChange={(navigation) => {
+          if (navigationState?.url !== navigation.url) {
+            // Different page
+            webView.current?.injectJavaScript(`
+              window.expoPushToken = '${expoPushToken}';
+              true;
+            `)
+          }
+
           setNavigationState(navigation)
 
           if (!navigation.url.startsWith(eodiroUrl)) {
