@@ -70,7 +70,6 @@ function App() {
   const notificationListener = useRef<Subscription>({ remove: () => {} })
   const responseListener = useRef<Subscription>({ remove: () => {} })
 
-  const [isLoaded, setIsLoaded] = useState(false)
   const [hasError, setHasError] = useState(false)
 
   const [webViewUrl, setWebViewUrl] = useState(eodiroUrl)
@@ -99,11 +98,22 @@ function App() {
       (response) => {
         const { data } = response.notification.request.content
 
+        if (isDev) {
+          console.log(data)
+        }
+
         if (data.type === 'notice' && data.url) {
-          Linking.openURL(data.url as string)
+          if (!data.url) {
+            alert('공지사항으로 페이지로 이동할 수 없습니다.')
+          } else {
+            Linking.openURL(data.url as string)
+          }
         } else if (data.type === 'comment') {
-          setWebViewUrl(
-            `${eodiroUrl}/community/board/${data.boardId}/post/${data.postId}`
+          webView.current?.postMessage(
+            JSON.stringify({
+              type: 'redirect',
+              url: `${eodiroUrl}/community/board/${data.boardId}/post/${data.postId}`,
+            })
           )
         }
       }
@@ -113,7 +123,7 @@ function App() {
       Notifications.removeNotificationSubscription(notificationListener.current)
       Notifications.removeNotificationSubscription(responseListener.current)
     }
-  }, [])
+  }, [webView])
 
   return (
     <View style={styles.container}>
@@ -147,8 +157,6 @@ function App() {
                 duration: 300,
                 useNativeDriver: true,
               }).start()
-
-              setIsLoaded(true)
             }, 200)
           } else if (parsed.requestExpoPushToken) {
             const expoPushToken = (await Notifications.getExpoPushTokenAsync())
