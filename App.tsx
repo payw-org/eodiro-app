@@ -109,10 +109,18 @@ function App() {
             Linking.openURL(data.url as string)
           }
         } else if (data.type === 'comment') {
+          let url = `/community/board/${data.boardId}/post/${data.postId}`
+
+          if (data.commentId) {
+            url += `?commentId=${data.commentId}`
+          } else if (data.subcommentId) {
+            url += `?subcommentId=${data.subcommentId}`
+          }
+
           webView.current?.postMessage(
             JSON.stringify({
               type: 'redirect',
-              url: `${eodiroUrl}/community/board/${data.boardId}/post/${data.postId}`,
+              url,
             })
           )
         }
