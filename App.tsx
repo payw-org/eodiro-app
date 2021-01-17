@@ -67,6 +67,17 @@ function App() {
     notification,
     setNotification,
   ] = useState<Notifications.Notification | null>(null)
+  const isLoaded = useRef(false)
+  const postponedWebViewRedirectMessage = useRef('')
+
+  useEffect(() => {
+    console.log('webview loaded')
+    if (isLoaded.current && postponedWebViewRedirectMessage.current) {
+      webView.current?.postMessage(postponedWebViewRedirectMessage.current)
+      postponedWebViewRedirectMessage.current = ''
+    }
+  }, [isLoaded.current])
+
   const notificationListener = useRef<Subscription>({ remove: () => {} })
   const responseListener = useRef<Subscription>({ remove: () => {} })
 
@@ -117,12 +128,21 @@ function App() {
             url += `?subcommentId=${data.subcommentId}`
           }
 
-          webView.current?.postMessage(
-            JSON.stringify({
+          if (isLoaded.current) {
+            // Post message when the webview is loaded
+            webView.current?.postMessage(
+              JSON.stringify({
+                type: 'redirect',
+                url,
+              })
+            )
+          } else {
+            // Postpone the redirection
+            postponedWebViewRedirectMessage.current = JSON.stringify({
               type: 'redirect',
               url,
             })
-          )
+          }
         }
       }
     )
@@ -160,6 +180,8 @@ function App() {
             setTimeout(() => {
               askForNotificationsPermission()
 
+              isLoaded.current = true
+
               Animated.timing(fadeAnim, {
                 toValue: 0,
                 duration: 300,
@@ -169,7 +191,12 @@ function App() {
           } else if (parsed.requestExpoPushToken) {
             const expoPushToken = (await Notifications.getExpoPushTokenAsync())
               .data
-            webView.current?.postMessage(expoPushToken)
+            webView.current?.postMessage(
+              JSON.stringify({
+                type: 'registerPush',
+                expoPushToken,
+              })
+            )
           }
         }}
         decelerationRate="normal"
