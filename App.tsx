@@ -203,14 +203,6 @@ function App() {
         style={styles.webView}
         ref={(wv) => (webView.current = wv)}
         onNavigationStateChange={(navigation) => {
-          if (navigationState?.url !== navigation.url) {
-            // Different page
-            webView.current?.injectJavaScript(`
-              window.expoPushToken = '${expoPushToken}';
-              true;
-            `)
-          }
-
           setNavigationState(navigation)
 
           if (!navigation.url.startsWith(eodiroUrl)) {
