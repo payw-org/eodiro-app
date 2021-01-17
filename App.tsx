@@ -70,13 +70,6 @@ function App() {
   const isLoaded = useRef(false)
   const postponedWebViewRedirectMessage = useRef('')
 
-  useEffect(() => {
-    if (isLoaded.current && postponedWebViewRedirectMessage.current) {
-      webView.current?.postMessage(postponedWebViewRedirectMessage.current)
-      postponedWebViewRedirectMessage.current = ''
-    }
-  }, [isLoaded.current])
-
   const notificationListener = useRef<Subscription>({ remove: () => {} })
   const responseListener = useRef<Subscription>({ remove: () => {} })
 
@@ -180,6 +173,15 @@ function App() {
               askForNotificationsPermission()
 
               isLoaded.current = true
+
+              setTimeout(() => {
+                if (postponedWebViewRedirectMessage.current) {
+                  webView.current?.postMessage(
+                    postponedWebViewRedirectMessage.current
+                  )
+                  postponedWebViewRedirectMessage.current = ''
+                }
+              }, 300)
 
               Animated.timing(fadeAnim, {
                 toValue: 0,
