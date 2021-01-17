@@ -71,7 +71,6 @@ function App() {
   const postponedWebViewRedirectMessage = useRef('')
 
   useEffect(() => {
-    console.log('webview loaded')
     if (isLoaded.current && postponedWebViewRedirectMessage.current) {
       webView.current?.postMessage(postponedWebViewRedirectMessage.current)
       postponedWebViewRedirectMessage.current = ''
