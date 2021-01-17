@@ -139,7 +139,7 @@ function App() {
       <View
         style={{
           height: Constants.statusBarHeight,
-          backgroundColor: colorScheme === 'light' ? '#f0f2f3' : '#000000',
+          backgroundColor: colorScheme === 'light' ? '#f3f4f7' : '#000000',
         }}
       />
       <WebView
@@ -198,7 +198,7 @@ function App() {
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'center',
-          backgroundColor: colorScheme === 'light' ? '#f0f2f3' : '#000000',
+          backgroundColor: colorScheme === 'light' ? '#f3f4f7' : '#000000',
           paddingBottom: getBottomSpace(),
         }}
       >
