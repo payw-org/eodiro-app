@@ -218,8 +218,11 @@ function App() {
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'center',
-          backgroundColor: colorScheme === 'light' ? '#f3f4f7' : '#000000',
+          backgroundColor: colorScheme === 'light' ? '#fff' : '#000',
           paddingBottom: getBottomSpace(),
+          shadowColor: '#000',
+          shadowOpacity: 0.05,
+          shadowRadius: 10,
         }}
       >
         <TouchableOpacity
