@@ -192,6 +192,7 @@ function App() {
           } else if (parsed.requestExpoPushToken) {
             const expoPushToken = (await Notifications.getExpoPushTokenAsync())
               .data
+
             webView.current?.postMessage(
               JSON.stringify({
                 type: 'registerPush',
@@ -223,6 +224,7 @@ function App() {
           shadowColor: '#000',
           shadowOpacity: 0.05,
           shadowRadius: 10,
+          elevation: 5,
         }}
       >
         <TouchableOpacity
