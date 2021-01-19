@@ -299,15 +299,14 @@ function App() {
                 marginBottom: 50,
               }}
             />
-            <Text style={{ color: '#fff', lineHeight: 25, fontSize: 14 }}>
-              서버에 접속하지 못했습니다.
+            <Text style={styles.connectionErrorText}>
+              접속이 원활하지 않습니다.
             </Text>
-            <Text style={{ color: '#fff', lineHeight: 25, fontSize: 14 }}>
-              같은 문제가 지속될 시
+            <Text style={styles.connectionErrorText}>같은 문제가 지속될시</Text>
+            <Text style={styles.connectionErrorText}>
+              다음 이메일로 문의바랍니다.
             </Text>
-            <Text style={{ color: '#fff', lineHeight: 25, fontSize: 14 }}>
-              support@eodiro.com으로 문의해주세요.
-            </Text>
+            <Text style={styles.connectionErrorText}>support@eodiro.com</Text>
           </View>
         )}
       </Animated.View>
@@ -327,6 +326,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: 60,
     height: 50,
+  },
+  connectionErrorText: {
+    color: '#fff',
+    lineHeight: 22,
+    fontSize: 14,
   },
 })
 
