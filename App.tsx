@@ -1,10 +1,10 @@
 import { Feather } from '@expo/vector-icons'
 import { Subscription } from '@unimodules/core'
 import Constants from 'expo-constants'
-import * as Linking from 'expo-linking'
 import * as Notifications from 'expo-notifications'
 import * as Permissions from 'expo-permissions'
 import { StatusBar } from 'expo-status-bar'
+import * as WebBrowser from 'expo-web-browser'
 import React, { useEffect, useRef, useState } from 'react'
 import {
   Animated,
@@ -107,9 +107,9 @@ function App() {
 
         if (data.type === 'notice' && data.url) {
           if (!data.url) {
-            alert('공지사항으로 페이지로 이동할 수 없습니다.')
+            alert('공지사항 페이지로 이동할 수 없습니다.')
           } else {
-            Linking.openURL(data.url as string)
+            WebBrowser.openBrowserAsync(data.url as string)
           }
         } else if (data.type === 'comment') {
           let url = `/community/board/${data.boardId}/post/${data.postId}`
@@ -209,7 +209,7 @@ function App() {
 
           if (!navigation.url.startsWith(eodiroUrl)) {
             webView.current?.stopLoading()
-            Linking.openURL(navigation.url)
+            WebBrowser.openBrowserAsync(navigation.url)
           }
         }}
       />
