@@ -1,4 +1,5 @@
 import { Feather } from '@expo/vector-icons'
+import NetInfo from '@react-native-community/netinfo'
 import { Subscription } from '@unimodules/core'
 import Constants from 'expo-constants'
 import * as Notifications from 'expo-notifications'
@@ -18,6 +19,7 @@ import {
 import { AppearanceProvider, useColorScheme } from 'react-native-appearance'
 import { getBottomSpace } from 'react-native-iphone-x-helper'
 import { WebView, WebViewNavigation } from 'react-native-webview'
+import AppIcon from './assets/icon-arrow-only.png'
 import { env } from './env'
 
 const isDev = process.env.NODE_ENV === 'development'
@@ -139,11 +141,16 @@ function App() {
       }
     )
 
+    const unsubscribeNetInfo = NetInfo.addEventListener((state) => {
+      setHasError(!state.isConnected)
+    })
+
     return () => {
       Notifications.removeNotificationSubscription(notificationListener.current)
       Notifications.removeNotificationSubscription(responseListener.current)
+      unsubscribeNetInfo()
     }
-  }, [webView])
+  }, [])
 
   return (
     <View style={styles.container}>
@@ -280,8 +287,21 @@ function App() {
           alignItems: 'center',
           justifyContent: 'center',
         }}
-      >
-        {hasError && (
+      />
+      {hasError && (
+        <View
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            backgroundColor: '#000000',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
           <View
             style={{
               display: 'flex',
@@ -290,24 +310,23 @@ function App() {
             }}
           >
             <Image
-              source={require('./assets/icon-arrow-only.png')}
+              source={AppIcon}
               style={{
                 width: 100,
                 height: 100,
-                marginBottom: 50,
+                marginBottom: 30,
               }}
             />
             <Text style={styles.connectionErrorText}>
-              접속이 원활하지 않습니다.
+              서비스에 접속하지 못했습니다.
             </Text>
-            <Text style={styles.connectionErrorText}>같은 문제가 지속될시</Text>
             <Text style={styles.connectionErrorText}>
-              다음 이메일로 문의바랍니다.
+              같은 문제가 지속될시 문의바랍니다.
             </Text>
             <Text style={styles.connectionErrorText}>support@eodiro.com</Text>
           </View>
-        )}
-      </Animated.View>
+        </View>
+      )}
     </View>
   )
 }

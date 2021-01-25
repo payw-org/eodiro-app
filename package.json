@@ -21,7 +21,8 @@
     "react-native-webview": "11.0.0",
     "expo-notifications": "~0.8.2",
     "expo-permissions": "~10.0.0",
-    "expo-web-browser": "~8.6.0"
+    "expo-web-browser": "~8.6.0",
+    "@react-native-community/netinfo": "5.9.7"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",
