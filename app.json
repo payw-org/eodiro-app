@@ -20,6 +20,10 @@
       "buildNumber": "26",
       "config": {
         "usesNonExemptEncryption": false
+      },
+      "infoPlist": {
+        "NSCameraUsageDescription": "어디로에서 게시물에 사용될 사진을 촬영하기 위해 사용자의 카메라에 접근하려고 합니다.",
+        "NSPhotoLibraryUsageDescription": "어디로에서 게시물 사진 업로드를 위해 사용자의 앨범에 접근하려고 합니다."
       }
     },
     "android": {
