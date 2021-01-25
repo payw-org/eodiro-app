@@ -17,7 +17,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.eodiro.app",
-      "buildNumber": "25",
+      "buildNumber": "26",
       "config": {
         "usesNonExemptEncryption": false
       }
