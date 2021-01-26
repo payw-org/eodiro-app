@@ -171,6 +171,17 @@ function App() {
         onError={() => {
           setHasError(true)
         }}
+        onLoad={() => {
+          if (isLoaded.current === false) {
+            Animated.timing(fadeAnim, {
+              toValue: 0,
+              duration: 250,
+              useNativeDriver: true,
+            }).start()
+          } else {
+            isLoaded.current = true
+          }
+        }}
         onMessage={async (e) => {
           const { data } = e.nativeEvent
           const parsed = JSON.parse(data)
@@ -189,12 +200,6 @@ function App() {
                   postponedWebViewRedirectMessage.current = ''
                 }
               }, 300)
-
-              Animated.timing(fadeAnim, {
-                toValue: 0,
-                duration: 300,
-                useNativeDriver: true,
-              }).start()
             }, 200)
           } else if (parsed.requestExpoPushToken) {
             const expoPushToken = (await Notifications.getExpoPushTokenAsync())
