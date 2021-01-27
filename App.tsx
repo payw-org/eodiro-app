@@ -213,6 +213,7 @@ function App() {
             )
           }
         }}
+        allowsLinkPreview
         decelerationRate="normal"
         style={styles.webView}
         ref={(wv) => (webView.current = wv)}
