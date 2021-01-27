@@ -223,7 +223,15 @@ function App() {
           if (!navigation.url.startsWith(eodiroUrl)) {
             webView.current?.stopLoading()
             WebBrowser.openBrowserAsync(navigation.url)
+            return
           }
+
+          webView.current?.postMessage(
+            JSON.stringify({
+              type: 'setCanGoBack',
+              value: navigation.canGoBack,
+            })
+          )
         }}
       />
       <View
