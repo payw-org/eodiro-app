@@ -15,8 +15,8 @@
       "fallbackToCacheTimeout": 0
     },
     "ios": {
-      "buildNumber": "29",
-      "supportsTablet": false,
+      "buildNumber": "30",
+      "supportsTablet": true,
       "bundleIdentifier": "com.eodiro.app",
       "config": {
         "usesNonExemptEncryption": false
