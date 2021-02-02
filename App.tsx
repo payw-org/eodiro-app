@@ -168,6 +168,7 @@ function App() {
             'eodiro-agent': 'expo',
           },
         }}
+        bounces={false}
         onError={() => {
           setHasError(true)
         }}
